@@ -13,8 +13,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.web.context.annotation.SessionScope;
+
 @Entity
-@Table(name = "user")
+@SessionScope
+@Table(name = "usertab")
 public class User {
  
  @Id
