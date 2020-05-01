@@ -28,12 +28,21 @@ public class UserController {
   return model;
  }
  
+ @RequestMapping(value= {"/dummy"}, method=RequestMethod.POST)
+ public ModelAndView dummy() {
+  ModelAndView model = new ModelAndView();
+  
+  model.setViewName("user/welcome");
+  return model;
+ }
+ 
  @RequestMapping(value= {"/signup"}, method=RequestMethod.GET)
  public ModelAndView signup() {
   ModelAndView model = new ModelAndView();
   User user = new User();
+  
   model.addObject("user", user);
-  model.setViewName("user/signup");
+  model.setViewName("/user/signup");
   
   return model;
  }
@@ -52,7 +61,7 @@ public class UserController {
    userService.saveUser(user);
    model.addObject("msg", "User has been registered successfully!");
    model.addObject("user", new User());
-   model.setViewName("user/login");
+   model.setViewName("user/signup");
   }
   
   return model;
@@ -63,9 +72,12 @@ public class UserController {
   ModelAndView model = new ModelAndView();
   Authentication auth = SecurityContextHolder.getContext().getAuthentication();
   User user = userService.findUserByEmail(auth.getName());
-  
+  if(user!=null) {
   model.addObject("userName", user.getFirstname() + " " + user.getLastname());
   model.setViewName("home/home");
+  }else {
+	  model.setViewName("errors/access_denied");
+  }
   return model;
  }
  

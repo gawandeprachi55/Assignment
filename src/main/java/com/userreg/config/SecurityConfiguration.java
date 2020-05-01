@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
    .antMatchers("/").permitAll()
    .antMatchers("/login").permitAll()
    .antMatchers("/signup").permitAll()
-   .antMatchers("/home/**").hasAuthority("ADMIN").anyRequest()
+   .antMatchers("/home/**").hasAnyAuthority("admin","employee","customer").anyRequest()
    .authenticated().and().csrf().disable()
    .formLogin().loginPage("/login").failureUrl("/login?error=true")
    .defaultSuccessUrl("/home/home")
@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
    .logoutSuccessUrl("/")
    .and().rememberMe()
    .tokenRepository(persistentTokenRepository())
-   .tokenValiditySeconds(60*60)
+   .tokenValiditySeconds(60)
    .and().exceptionHandling().accessDeniedPage("/access_denied");
   http.headers().frameOptions().sameOrigin();
  }
